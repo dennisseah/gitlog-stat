@@ -3,7 +3,9 @@
 import datetime
 import re
 
+from gitlog_stat.ingestor.employee import Employee
 from gitlog_stat.ingestor.log_entry import LogEntry
+from gitlog_stat.ingestor.name_mapper import NameMapper
 
 
 class Block:
@@ -29,7 +31,21 @@ class Block:
             m = re.search(r"^Author:\s(.+?)\s<", line)
             if m:
                 lc_name = m.group(1).lower()
-                return " ".join(map(lambda x: x.capitalize(), lc_name.split(" ")))
+                name = " ".join(map(lambda x: x.capitalize(), lc_name.split(" ")))
+                return NameMapper.map(name)
+
+        return None
+
+    def email(self):
+        """Return email address.
+
+        Returns:
+            [str]: email address
+        """
+        for line in self.data:
+            m = re.search(r"^Author:\s.+?\s<(.+?)>", line)
+            if m:
+                return m.group(1).lower()
         return None
 
     def is_customer(self):
@@ -38,11 +54,10 @@ class Block:
         Returns:
             [bool]: True if the author is customer.
         """
-        for line in self.data:
-            m = re.search(r"^Author:\s.+?\s<(.+?)>", line)
-            if m:
-                return "@microsoft.com" not in m.group(1)
-        return False
+        email = self.email()
+        if not email:
+            return False
+        return "@microsoft.com" not in email and not Employee.is_employee(email)
 
     def commit_time(self):
         """Return commit time.

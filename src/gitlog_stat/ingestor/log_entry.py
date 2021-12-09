@@ -3,22 +3,24 @@
 import pandas as pd
 
 TABU_EXT = [
-    "gitignore",
-    "gitattributes",
     "cfg",
-    "runconfig",
+    "cmd",
     "csproj",
+    "dockerignore",
     "editorconfig",
+    "env",
     "feature",
+    "gitattributes",
+    "gitignore",
     "http",
     "mod",
     "refactorlog",
     "ruleset",
+    "runconfig",
     "sln",
     "sqlproj",
-    "env",
-    "targets",
     "sum",
+    "targets",
 ]
 
 EXT_MAP = {"yaml": "yml", "png": "images", "drawio": "images", "mp4": "videos", "tfvars": "tf"}
@@ -34,6 +36,7 @@ class LogEntry:
             block (Block): block of raw log data
         """
         self.author = block.author()
+        self.email = block.email()
         self.is_customer = block.is_customer()
         self.commit_time = block.commit_time()
 
@@ -94,6 +97,7 @@ class LogEntry:
         """
         data = {
             "author": [],
+            "email": [],
             "is_customer": [],
             "commit_time": [],
             "files_changed": [],
@@ -116,6 +120,7 @@ class LogEntry:
                 data["author"].append(entry.author + " (*)")
             else:
                 data["author"].append(entry.author)
+            data["email"].append(entry.email)
             data["is_customer"].append(entry.is_customer)
             data["commit_time"].append(entry.commit_time)
             data["files_changed"].append(entry.files_changed)

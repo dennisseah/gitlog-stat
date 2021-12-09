@@ -34,6 +34,6 @@ class CommitByWeek(ReportBase):
         Args:
             df_stat (DataFrame): statistic dataframe.
         """
-        unique_weeks = df_stat["week_of_year"].unique().tolist()
+        unique_weeks = sorted(df_stat["week_of_year"].unique().tolist())
         for author in df_stat["author"].unique().tolist():
             self._print_week_bar(author, unique_weeks, df_stat)

@@ -1,0 +1,9 @@
+{
+    "python.formatting.provider": "black",
+    "python.formatting.blackArgs": ["--line-length", "100"],
+    "python.linting.enabled": true,
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/__pypackages__/3.8/lib"
+    ],
+    "python.analysis.extraPaths": ["${workspaceFolder}/__pypackages__/3.8/lib"]
+}

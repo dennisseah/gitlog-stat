@@ -1,0 +1,26 @@
+[project]
+name = "denz-seah-gitlog-stat"
+version = "0.0.1"
+description = "Extracting git information from logs"
+authors = [
+    {name = "Dennis Seah", email = "dennis.seah@gmail.com"},
+]
+dependencies = ["pandas==1.3.3", "tabulate==0.8.9"]
+requires-python = ">=3.8"
+dynamic = ["classifiers"]
+license = {text = "MIT"}
+
+[tool.pdm.dev-dependencies]  # This is dev dependencies
+dev1 = ["black==21.9b0"]
+dev2 = ["pytest-cov==3.0.0"]
+dev3 = ["pytest==6.2.5"]
+
+[project.urls]
+homepage = "https://github.com/dennisseah/gitlog-stat"
+
+[tool]
+[tool.pdm]
+[[tool.pdm.source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true

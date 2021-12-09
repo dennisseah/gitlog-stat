@@ -1,0 +1,8 @@
+__pypackages__/**
+dist/**
+**/__pycache__
+**/*.pyc
+.coverage
+**/*.egg-info
+samples/**
+src/main.py

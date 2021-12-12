@@ -11,8 +11,20 @@ from gitlog_stat.reports.commit_by_week_by_customer import CommitByWeekByCustome
 
 
 class Statistic:
+    """This class is responsible for generating all the available statistics."""
+
     @staticmethod
-    def build(project: str, files: list, print_rpt=True):
+    def build(project: str, files: list):
+        """Build statistics.
+
+        Args:
+            project (str): Title of project.
+            files (list): List of file paths that contains 'git log --stat' data.
+
+        Returns:
+            DataFrame: data frame for raw data.
+        """
+        print_rpt = True
         result = Ingestor.ingest_from_file(files)
         df = LogEntry.to_dataframe(result)
 

@@ -22,10 +22,11 @@ class ReportBase:
             data[raw_data["week_of_year"][idx]] = raw_data["lines_total"][idx]
 
         for w in unique_weeks:
-            val = data[w] if w in data else 0
-            bar = min(ReportBase.__roundup(val / 50), 100)
+            val = data[w] if w in data else ""
+            bar = min(ReportBase.__roundup(val / 50), 100) if val else 0
+            val = str(val).rjust(5) if val else ".".rjust(5)
 
-            print("{wk} | {val:6.0f} {bar}".format(wk=w, val=val, bar="#" * bar))
+            print("{wk} | {val} {bar}".format(wk=w, val=val, bar="#" * bar))
 
         print()
 
@@ -47,10 +48,11 @@ class ReportBase:
             data[raw_data["commit_day"][idx]] = raw_data["lines_total"][idx]
 
         for d in unique_days:
-            val = data[d] if d in data else 0
-            bar = min(ReportBase.__roundup(val / 50), 100)
+            val = data[d] if d in data else ""
+            bar = min(ReportBase.__roundup(val / 50), 100) if val else 0
+            val = str(val).rjust(5) if val else ".".rjust(5)
 
-            print("{day:9s} | {val:6.0f} {bar}".format(day=d, val=val, bar="#" * bar))
+            print("{day:9s} | {val} {bar}".format(day=d, val=val, bar="#" * bar))
 
         print()
 
@@ -72,10 +74,11 @@ class ReportBase:
             data[raw_data["commit_time"][idx]] = raw_data["lines_total"][idx]
 
         for tm in unique_times:
-            val = data[tm] if tm in data else 0
-            bar = min(ReportBase.__roundup(val / 50), 100)
+            val = data[tm] if tm in data else ""
+            bar = min(ReportBase.__roundup(val / 50), 100) if val else 0
+            val = str(val).rjust(5) if val else ".".rjust(5)
 
-            print("{time:2d} hours | {val:6.0f} {bar}".format(time=tm, val=val, bar="#" * bar))
+            print("{time:2d} hours | {val} {bar}".format(time=tm, val=val, bar="#" * bar))
 
         print()
 

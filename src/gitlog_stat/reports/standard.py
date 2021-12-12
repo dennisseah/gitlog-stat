@@ -19,17 +19,17 @@ class Standard(ReportBase):
             [type]: [description]
         """
         df_commit_time_min = (
-            df[["author", "commit_time"]].groupby("author")["commit_time"].min().reset_index()
+            df[["author", "commit_ts"]].groupby("author")["commit_ts"].min().reset_index()
         )
-        df_commit_time_min.rename(columns={"commit_time": "min_commit_time"}, inplace=True)
+        df_commit_time_min.rename(columns={"commit_ts": "min_commit_time"}, inplace=True)
         df_commit_time_min["min_commit_time"] = df_commit_time_min["min_commit_time"].dt.strftime(
             "%Y-%m-%d"
         )
 
         df_commit_time_max = (
-            df[["author", "commit_time"]].groupby("author")["commit_time"].max().reset_index()
+            df[["author", "commit_ts"]].groupby("author")["commit_ts"].max().reset_index()
         )
-        df_commit_time_max.rename(columns={"commit_time": "max_commit_time"}, inplace=True)
+        df_commit_time_max.rename(columns={"commit_ts": "max_commit_time"}, inplace=True)
         df_commit_time_max["max_commit_time"] = df_commit_time_max["max_commit_time"].dt.strftime(
             "%Y-%m-%d"
         )

@@ -130,11 +130,14 @@ class LogEntry:
 
         df = pd.DataFrame.from_dict(data)
 
-        df["commit_time"] = pd.to_datetime(df["commit_time"])
+        df["commit_ts"] = pd.to_datetime(df["commit_time"])
+        df["commit_time"] = df["commit_ts"].dt.round("H").dt.hour
+        df["commit_day"] = df["commit_ts"].dt.day_name()
+
         df["week_of_year"] = (
-            df["commit_time"].dt.year.astype(str)
+            df["commit_ts"].dt.year.astype(str)
             + "_"
-            + df["commit_time"].dt.isocalendar().week.astype(str)
+            + df["commit_ts"].dt.isocalendar().week.astype(str)
         )
         df["lines_total"] = df["lines_added"] + df["lines_deleted"]
 

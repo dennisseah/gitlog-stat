@@ -3,6 +3,8 @@
 import json
 import sys
 
+from gitlog_stat.config import Config
+
 from gitlog_stat.ingestor.ingestor import Ingestor
 from gitlog_stat.ingestor.log_entry import LogEntry
 
@@ -55,6 +57,7 @@ class Statistic:
 
 
 if __name__ == "__main__":
+    Config.parse()
     if len(sys.argv) != 2:
         print("Usage: python gitlog_stat/statistic.py <JSON file path>")
     else:

@@ -1,7 +1,8 @@
 """Name mapper."""
 
 mapper = {
-    "seah": "Dennis Seah",
+    "Smutnuri": "Satya Mutnuri",
+    "Veseah": "Dennis Seah",
 }
 
 

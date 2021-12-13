@@ -1,0 +1,40 @@
+{
+    "employee-emails": [],
+
+    "excluded-extensions": [
+        "cfg",
+        "cmd",
+        "csproj",
+        "dockerignore",
+        "editorconfig",
+        "env",
+        "feature",
+        "gitattributes",
+        "gitignore",
+        "http",
+        "mod",
+        "refactorlog",
+        "ruleset",
+        "runconfig",
+        "sln",
+        "sqlproj",
+        "sum",
+        "targets",
+        "flake8",
+        "msapp"
+    ],
+
+    "extension-mappings": {
+        "yaml": "yml",
+        "png": "images",
+        "jpeg": "images",
+        "jpg": "images",
+        "drawio": "images",
+        "vsdx": "images",
+        "mp4": "videos",
+        "tfvars": "tf",
+        "csv": "data",
+        "dsv": "data",
+        "parquet": "data"
+    }
+}

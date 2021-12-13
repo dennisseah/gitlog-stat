@@ -1,43 +1,7 @@
 """Log entry."""
 
 import pandas as pd
-
-TABU_EXT = [
-    "cfg",
-    "cmd",
-    "csproj",
-    "dockerignore",
-    "editorconfig",
-    "env",
-    "feature",
-    "gitattributes",
-    "gitignore",
-    "http",
-    "mod",
-    "refactorlog",
-    "ruleset",
-    "runconfig",
-    "sln",
-    "sqlproj",
-    "sum",
-    "targets",
-    "flake8",
-    "msapp",
-]
-
-EXT_MAP = {
-    "yaml": "yml",
-    "png": "images",
-    "jpeg": "images",
-    "jpg": "images",
-    "drawio": "images",
-    "vsdx": "images",
-    "mp4": "videos",
-    "tfvars": "tf",
-    "csv": "data",
-    "dsv": "data",
-    "parquet": "data",
-}
+from gitlog_stat.config import Config
 
 
 class LogEntry:
@@ -64,6 +28,8 @@ class LogEntry:
     def file_touched_ext(self):
         """Extensions of file touched."""
         results = {}
+        excluded_exts = Config.excluded_extensions
+        exts_mapping = Config.extension_mappings
 
         for f in self.file_touched:
             try:
@@ -72,9 +38,9 @@ class LogEntry:
                 if ext[-1] == "}":
                     ext = ext[0, -1]
 
-                if ext not in TABU_EXT and "/" not in ext:
-                    if ext in EXT_MAP:
-                        ext = EXT_MAP[ext]
+                if ext not in excluded_exts and "/" not in ext:
+                    if ext in exts_mapping:
+                        ext = exts_mapping[ext]
                     if ext not in results:
                         results[ext] = 0
                     results[ext] += 1

@@ -1,8 +1,6 @@
 """Determine if an email belongs to Microsoft employee."""
 
-emails = [
-    "dennis@microsoft.com",
-]
+from gitlog_stat.config import Config
 
 
 class Employee:
@@ -18,4 +16,4 @@ class Employee:
         Returns:
             bool: True if email belongs to Microsoft employee.
         """
-        return email.lower() in emails
+        return email.lower() in Config.employee_emails

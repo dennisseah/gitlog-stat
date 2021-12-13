@@ -28,13 +28,19 @@ class Block:
         Returns:
             [str]: Author
         """
+        titles = Config.employee_titles
+
         for line in self.data:
             m = re.search(r"^Author:\s(.+?)\s<", line)
             if m:
                 lc_name = m.group(1).lower()
                 name = " ".join(map(lambda x: x.capitalize(), lc_name.split(" ")))
-                return NameMapper.map(name)
+                name = NameMapper.map(name)
 
+                if name in titles:
+                    name = "{} ({})".format(name, titles[name])
+
+                return name
         return None
 
     def email(self):

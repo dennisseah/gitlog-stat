@@ -10,6 +10,7 @@ CONFIG_FILE_NAME = "gitlogstat.json"
 class Config:
     """Configuration class."""
 
+    company_email_domains = []
     employee_emails = []
     excluded_extensions = []
     extension_mappings = {}
@@ -38,5 +39,6 @@ class Config:
         """Parse configuration file."""
         cfg = cls._parse()
         cls.employee_emails = cfg.get("employee-emails", [])
+        cls.company_email_domains = cfg.get("company-email-domains", [])
         cls.excluded_extensions = cfg.get("excluded-extensions", [])
         cls.extension_mappings = cfg.get("extension-mappings", {})

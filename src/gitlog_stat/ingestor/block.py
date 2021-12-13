@@ -3,6 +3,7 @@
 import datetime
 import re
 
+from gitlog_stat.config import Config
 from gitlog_stat.ingestor.employee import Employee
 from gitlog_stat.ingestor.log_entry import LogEntry
 from gitlog_stat.ingestor.name_mapper import NameMapper
@@ -57,7 +58,10 @@ class Block:
         email = self.email()
         if not email:
             return False
-        return "@microsoft.com" not in email and not Employee.is_employee(email)
+
+        return not any(
+            [x in email for x in Config.company_email_domains]
+        ) and not Employee.is_employee(email)
 
     def commit_time(self):
         """Return commit time.
@@ -73,6 +77,11 @@ class Block:
         return None
 
     def commit_stat(self):
+        """Get commit statistics.
+
+        Returns:
+            dict: map of statistic to value.
+        """
         result = {
             "files_changed": 0,
             "lines_added": 0,
@@ -96,6 +105,11 @@ class Block:
         return result
 
     def files_touched(self):
+        """Get a list of modified (added, deleted, and modified) files.
+
+        Returns:
+            list: a list of modified files.
+        """
         files = list(
             filter(lambda x: re.match(r"^\s[^\s]", x) and not re.match(r"^\s\s\s\s", x), self.data)
         )[:-1]

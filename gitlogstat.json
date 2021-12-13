@@ -1,5 +1,6 @@
 {
     "employee-emails": [],
+    "company-email-domains": ["microsoft.com"],
 
     "excluded-extensions": [
         "cfg",

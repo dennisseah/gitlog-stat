@@ -1,5 +1,8 @@
 """Generate statistics."""
 
+import json
+import sys
+
 from gitlog_stat.ingestor.ingestor import Ingestor
 from gitlog_stat.ingestor.log_entry import LogEntry
 
@@ -38,3 +41,21 @@ class Statistic:
         CommitByWeekByCustomer().build(df, print_rpt=print_rpt)
 
         return df
+
+    @staticmethod
+    def build_from_json(json_path: str):
+        """Build statistics from json input.
+
+        Args:
+            json_path (str): path to JSON file
+        """
+        with open(json_path) as f:
+            props = json.loads(f.read())
+            Statistic.build(props["project"], props["files"])
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python gitlog_stat/statistic.py <JSON file path>")
+    else:
+        Statistic.build_from_json(sys.argv[1])

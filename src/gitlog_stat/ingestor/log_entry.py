@@ -21,9 +21,23 @@ TABU_EXT = [
     "sqlproj",
     "sum",
     "targets",
+    "flake8",
+    "msapp",
 ]
 
-EXT_MAP = {"yaml": "yml", "png": "images", "drawio": "images", "mp4": "videos", "tfvars": "tf"}
+EXT_MAP = {
+    "yaml": "yml",
+    "png": "images",
+    "jpeg": "images",
+    "jpg": "images",
+    "drawio": "images",
+    "vsdx": "images",
+    "mp4": "videos",
+    "tfvars": "tf",
+    "csv": "data",
+    "dsv": "data",
+    "parquet": "data",
+}
 
 
 class LogEntry:
@@ -58,7 +72,7 @@ class LogEntry:
                 if ext[-1] == "}":
                     ext = ext[0, -1]
 
-                if ext not in TABU_EXT:
+                if ext not in TABU_EXT and "/" not in ext:
                     if ext in EXT_MAP:
                         ext = EXT_MAP[ext]
                     if ext not in results:
@@ -137,7 +151,10 @@ class LogEntry:
         df["week_of_year"] = (
             df["commit_ts"].dt.year.astype(str)
             + "_"
-            + df["commit_ts"].dt.isocalendar().week.astype(str)
+            + df["commit_ts"]
+            .dt.isocalendar()
+            .week.astype(str)
+            .str.pad(2, side="left", fillchar="0")
         )
         df["lines_total"] = df["lines_added"] + df["lines_deleted"]
 

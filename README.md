@@ -20,7 +20,7 @@ python3 -m build
 
 ## How to generate the statistic
 
-git log > \<a file>
+`git log --stat --date=unix > <a file>`
 
 ```python
 """main program."""

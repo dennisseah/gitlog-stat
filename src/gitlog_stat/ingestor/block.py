@@ -65,14 +65,11 @@ class Block:
         Returns:
             [datetime]: Commit time
         """
-        fmt_str = "%a %b %d %H:%M:%S %Y %z"
-
         for line in self.data:
             m = re.search(r"^Date:\s+(.+)", line)
             if m:
-                return datetime.datetime.strptime(m.group(1), fmt_str).replace(
-                    tzinfo=datetime.timezone.utc
-                )
+                return datetime.datetime.fromtimestamp(int(m.group(1)))
+
         return None
 
     def commit_stat(self):

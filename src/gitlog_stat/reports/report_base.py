@@ -65,7 +65,7 @@ class ReportBase:
             bar_divider=bar_divider,
         )
 
-    def _print_time_bar(self, author: str, unique_times: list, df_stat):
+    def _print_time_bar(self, author: str, unique_times: list, df_stat, bar_divider=50):
         """Print time activities bar chart.
 
         Args:
@@ -79,7 +79,8 @@ class ReportBase:
             "{} - lines of code changed by time".format(author),
             unique_times,
             "commit_time",
-            ":00",
+            dim_prefix=":00",
+            bar_divider=bar_divider,
         )
 
     @staticmethod

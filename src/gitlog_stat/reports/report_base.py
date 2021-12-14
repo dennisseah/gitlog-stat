@@ -89,5 +89,25 @@ class ReportBase:
     def _print_title(self, title: str):
         print("\n\n" + title + "\n")
 
+    def _sum_author_line_counts(self, df, dimension: str):
+        return (
+            df[["author", dimension, "lines_total"]]
+            .groupby(["author", dimension])["lines_total"]
+            .sum()
+            .reset_index()
+        )
+
     def _unique_days(self, df_stat):
         return sorted(df_stat["commit_day"].unique().tolist(), key=DAYS.index)
+
+    def _build_author_report(self, df, func, dimension: str, print_rpt=False, days=False):
+        df_stat = self._sum_author_line_counts(df, dimension)
+
+        if print_rpt:
+            unique_measures = (
+                self._unique_days(df_stat) if days else sorted(df_stat[dimension].unique().tolist())
+            )
+            for author in df_stat["author"].unique().tolist():
+                func(author, unique_measures, df_stat)
+
+        return df_stat

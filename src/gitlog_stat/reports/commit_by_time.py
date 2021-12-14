@@ -16,24 +16,4 @@ class CommitByTime(ReportBase):
         Returns:
             [type]: [description]
         """
-        df_commit_by_time = (
-            df[["author", "commit_time", "lines_total"]]
-            .groupby(["author", "commit_time"])["lines_total"]
-            .sum()
-            .reset_index()
-        )
-
-        if print_rpt:
-            self.print_report(df_commit_by_time)
-
-        return df_commit_by_time
-
-    def print_report(self, df_stat):
-        """Print report.
-
-        Args:
-            df_stat (DataFrame): statistic dataframe.
-        """
-        unique_times = sorted(df_stat["commit_time"].unique().tolist())
-        for author in df_stat["author"].unique().tolist():
-            self._print_time_bar(author, unique_times, df_stat)
+        return self._build_author_report(df, self._print_time_bar, "commit_time", print_rpt)

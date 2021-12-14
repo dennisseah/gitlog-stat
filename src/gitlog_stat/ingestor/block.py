@@ -27,7 +27,6 @@ class Block:
         Returns:
             [str]: Author
         """
-        titles = Config.employee_titles
         mappings = Config.name_mappings
 
         for line in self.data:
@@ -35,13 +34,19 @@ class Block:
             if m:
                 lc_name = m.group(1).lower()
                 name = " ".join(map(lambda x: x.capitalize(), lc_name.split(" ")))
-                name = mappings[name] if name in mappings else name
-
-                if name in titles:
-                    name = "{} ({})".format(name, titles[name])
-
+                return mappings[name] if name in mappings else name
                 return name
         return None
+
+    def title(self):
+        """Return title of the person.
+
+        Returns:
+            [str]: Title
+        """
+        titles = Config.employee_titles
+        name = self.author()
+        return titles[name] if name is not None and name in titles else None
 
     def email(self):
         """Return email address.

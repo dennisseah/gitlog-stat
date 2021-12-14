@@ -15,6 +15,7 @@ class LogEntry:
         """
         self.author = block.author()
         self.email = block.email()
+        self.title = block.title()
         self.is_customer = block.is_customer()
         self.commit_time = block.commit_time()
 
@@ -78,6 +79,7 @@ class LogEntry:
         data = {
             "author": [],
             "email": [],
+            "title": [],
             "is_customer": [],
             "commit_time": [],
             "files_changed": [],
@@ -96,10 +98,8 @@ class LogEntry:
             for e in extensions:
                 data["ext_" + e].append(exts[e] if e in exts else 0)
 
-            if entry.is_customer:
-                data["author"].append(entry.author + " (*)")
-            else:
-                data["author"].append(entry.author)
+            data["author"].append(entry.author)
+            data["title"].append(entry.title)
             data["email"].append(entry.email)
             data["is_customer"].append(entry.is_customer)
             data["commit_time"].append(entry.commit_time)

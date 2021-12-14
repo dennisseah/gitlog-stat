@@ -76,7 +76,7 @@ class ReportBase:
         self._gen_report(
             df_stat,
             author,
-            "{} - lines of code changed by time".format(author),
+            "{} - lines of code changed by time".format(author if author else "All"),
             unique_times,
             "commit_time",
             dim_prefix=":00",

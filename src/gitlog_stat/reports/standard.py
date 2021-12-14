@@ -18,6 +18,13 @@ class Standard(ReportBase):
         Returns:
             [type]: [description]
         """
+        df_titles = (
+            df[["author", "title", "is_customer"]]
+            .drop_duplicates(["author", "title", "is_customer"])
+            .reset_index(drop=True)
+        )
+        df_titles.loc[(df_titles["is_customer"]), "title"] = "Customer"
+
         df_commit_time_min = (
             df[["author", "commit_ts"]].groupby("author")["commit_ts"].min().reset_index()
         )
@@ -45,10 +52,16 @@ class Standard(ReportBase):
             df[["author", "lines_deleted"]].groupby("author")["lines_deleted"].sum().reset_index()
         )
 
-        df_stat = df_commit_time_min
+        df_stat = df_titles
 
-        for d in [df_commit_time_max, df_files_changed, df_lines_added, df_lines_deleted]:
-            df_stat = pd.merge(df_stat, d, on="author", how="inner")
+        for d in [
+            df_commit_time_min,
+            df_commit_time_max,
+            df_files_changed,
+            df_lines_added,
+            df_lines_deleted,
+        ]:
+            df_stat = pd.merge(df_stat, d, on="author", how="inner").reset_index(drop=True)
 
         col_exts = sorted(filter(lambda x: x.startswith("ext_"), df.columns.to_list()))
 
@@ -75,23 +88,26 @@ class Standard(ReportBase):
         extensions = list(map(lambda x: x[4:], cols_extensions))
 
         self._print_title("By File Types (number of files touched)")
+        df = df_stat[
+            [
+                "author",
+                "title",
+            ]
+            + cols_extensions
+        ].copy(deep=True)
+        df.sort_values(by=["author"], axis=0, inplace=True)
+
         print(
-            tabulate(
-                df_stat[
-                    [
-                        "author",
-                    ]
-                    + cols_extensions
-                ],
-                headers=["author"] + extensions,
-                showindex=False,
-            ).replace(" 0", " -")
+            tabulate(df, headers=["author", "role"] + extensions, showindex=False).replace(
+                " 0", " -"
+            )
         )
         print()
 
     def _print_std_report(self, df_stat):
         headers = [
             "Engineer",
+            "Role",
             "Begin Contrib.",
             "Last Contrib.",
             "File Touched",
@@ -99,21 +115,18 @@ class Standard(ReportBase):
             "Lines (-)",
         ]
 
-        self._print_title("General Information ( * - Customer)")
-        print(
-            tabulate(
-                df_stat[
-                    [
-                        "author",
-                        "min_commit_time",
-                        "max_commit_time",
-                        "files_changed",
-                        "lines_added",
-                        "lines_deleted",
-                    ]
-                ],
-                headers=headers,
-                showindex=False,
-            )
-        )
+        self._print_title("General Information")
+        df = df_stat[
+            [
+                "author",
+                "title",
+                "min_commit_time",
+                "max_commit_time",
+                "files_changed",
+                "lines_added",
+                "lines_deleted",
+            ]
+        ].copy(deep=True)
+        df.sort_values(by=["author"], axis=0, inplace=True)
+        print(tabulate(df, headers=headers, showindex=False))
         print()

@@ -50,7 +50,9 @@ class Standard(ReportBase):
         for d in [df_commit_time_max, df_files_changed, df_lines_added, df_lines_deleted]:
             df_stat = pd.merge(df_stat, d, on="author", how="inner")
 
-        for ext in filter(lambda x: x.startswith("ext_"), df.columns.to_list()):
+        col_exts = sorted(filter(lambda x: x.startswith("ext_"), df.columns.to_list()))
+
+        for ext in col_exts:
             df_ext = df[["author", ext]].groupby("author")[ext].sum().reset_index()
             df_stat = pd.merge(df_stat, df_ext, on="author", how="inner")
 

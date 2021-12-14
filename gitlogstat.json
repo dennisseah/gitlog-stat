@@ -2,6 +2,7 @@
     "employee-emails": [],
     "company-email-domains": ["microsoft.com"],
     "employee-titles": {},
+    "name-mappings": {},
     "excluded-extensions": [
         "cfg",
         "cmd",
@@ -13,6 +14,7 @@
         "gitattributes",
         "gitignore",
         "http",
+        "MockMaker",
         "mod",
         "refactorlog",
         "ruleset",
@@ -32,6 +34,7 @@
         "jpg": "images",
         "drawio": "images",
         "vsdx": "images",
+        "svg": "images",
         "mp4": "videos",
         "tfvars": "tf",
         "csv": "data",

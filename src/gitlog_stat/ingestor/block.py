@@ -6,7 +6,6 @@ import re
 from gitlog_stat.config import Config
 from gitlog_stat.ingestor.employee import Employee
 from gitlog_stat.ingestor.log_entry import LogEntry
-from gitlog_stat.ingestor.name_mapper import NameMapper
 
 
 class Block:
@@ -29,13 +28,14 @@ class Block:
             [str]: Author
         """
         titles = Config.employee_titles
+        mappings = Config.name_mappings
 
         for line in self.data:
             m = re.search(r"^Author:\s(.+?)\s<", line)
             if m:
                 lc_name = m.group(1).lower()
                 name = " ".join(map(lambda x: x.capitalize(), lc_name.split(" ")))
-                name = NameMapper.map(name)
+                name = mappings[name] if name in mappings else name
 
                 if name in titles:
                     name = "{} ({})".format(name, titles[name])

@@ -12,6 +12,7 @@ class Config:
 
     company_email_domains = []
     employee_emails = []
+    name_mappings = {}
     employee_titles = {}
     excluded_extensions = []
     extension_mappings = {}
@@ -40,6 +41,7 @@ class Config:
         """Parse configuration file."""
         cfg = cls._parse()
         cls.employee_emails = cfg.get("employee-emails", [])
+        cls.name_mappings = cfg.get("name-mappings", {})
         cls.employee_titles = cfg.get("employee-titles", {})
         cls.company_email_domains = cfg.get("company-email-domains", [])
         cls.excluded_extensions = cfg.get("excluded-extensions", [])
